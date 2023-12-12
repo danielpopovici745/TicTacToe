@@ -139,17 +139,25 @@ function GameController(playerOne = "X",playerTwo = "O") {
   {
     const buttons = document.querySelectorAll('.cell');
     const playerTurnDiv = document.querySelector('.turn');
+    const containerDiv = document.querySelector('.container');
     playerTurnDiv.textContent = `${getActivePlayer().name} WON!`
     for (let i = 0; i< buttons.length;i++)
       {
         buttons[i].disabled = true;
       } 
+    const playAgain = document.createElement("button");
+    playAgain.classList.add("playAgain");
+    playAgain.onclick = function () {
+      location.reload()
+    };
+    playAgain.textContent = "RESTART";
+    containerDiv.appendChild(playAgain);
   }
 
   return {playRound, getActivePlayer,getActiveToken, checkWinCondition, changeTurns, getBoard: board.getBoard};
 }
 
-function ScreenController() {
+(function ScreenController() {
   const game = GameController();
   const playerTurnDiv = document.querySelector('.turn');
   const boardDiv = document.querySelector('.board');
@@ -196,5 +204,4 @@ function ScreenController() {
   }
 
   updateScreen();
-};
-ScreenController();
+})();
