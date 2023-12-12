@@ -122,16 +122,24 @@ function GameController(playerOne = "X",playerTwo = "O") {
       rightDiagWin = true;
       console.log("Player Two Wins!");
     }
+    
+    if (playerOneWinner || playerTwoWinner)
+    {
+      endGame(playerOneWinner,playerTwoWinner);
+    }
   }
 
   const playRound = (row,column) =>
   {
     updateBoard(row,column);
-    checkWinCondition();
-    changeTurns();
   };
 
-  return {playRound, getActivePlayer,getActiveToken, getBoard: board.getBoard};
+  const endGame = (playerOneWinner,playerTwoWinner) =>
+  {
+    prompt(`${getActivePlayer.name} WON!`); 
+  }
+
+  return {playRound, getActivePlayer,getActiveToken, getBoard: board.getBoard, checkWinCondition, changeTurns};
 }
 
 function ScreenController() {
@@ -173,8 +181,9 @@ function ScreenController() {
     if (!selectedCellRow) return;
     
     game.playRound(selectedCellRow,selectedCellColumn);
-
     updateScreen();
+    game.checkWinCondition();
+    game.changeTurns();
   }
 
   updateScreen();
