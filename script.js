@@ -63,6 +63,8 @@ function GameController(playerOne = "Player One",playerTwo = "player Two") {
     let playerOneWinner;
     let rowWin;
     let columnWin;
+    let leftDiagWin;
+    let rightDiagWin;
 
     console.log(boardArray);
 
@@ -77,18 +79,33 @@ function GameController(playerOne = "Player One",playerTwo = "player Two") {
       }
     }
 
-    // check Columns for winner
+    // check columns for winner
 
     for (let i = 0; i < boardArray.length; i++)
     {
       if(boardArray[0][i] == "X" && boardArray[1][i] == "X" && boardArray[2][i] == "X")
       {
         playerOneWinner = true;
-        columnWin = 0;
+        columnWin = i;
         console.log("Player One Wins!");
       }
     }
 
+    // check left diagonal for win \
+
+    if(boardArray[0][0] == "X" && boardArray[1][1] == "X" && boardArray[2][2] == "X")
+    {
+      playerOneWinner = true;
+      leftDiagWin = true;
+      console.log("Player One Wins!");
+    } 
+    // check right diagonal wins
+    else if(boardArray[0][2] == "X" && boardArray[1][1] == "X" && boardArray[2][0] == "X")
+    {
+      playerOneWinner = true;
+      rightDiagWin = true;
+      console.log("Player One Wins!");
+    }
   }
 
   const playRound = (row,column) =>
