@@ -10,7 +10,7 @@ function GameBoard() {
     board[i] = [];
     for (let j = 0; j < columns; j++) 
     {
-        board[i].push(`-`);
+        board[i].push("");
     }
   };
 
@@ -155,7 +155,7 @@ function ScreenController() {
       cellButton.dataset.row = rowindex;
       cellButton.dataset.column = columnindex;
       cellButton.textContent = board[rowindex][columnindex];
-      if (cellButton.textContent != "-") {
+      if (cellButton.textContent != "") {
         cellButton.removeEventListener("click", clickHandlerBoard);
       }
       else{
