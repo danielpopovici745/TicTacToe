@@ -18,7 +18,7 @@ function GameBoard() {
   return { getBoard};
 };
 
-function GameController(playerOne = "Player One",playerTwo = "player Two") {
+function GameController(playerOne = "X",playerTwo = "O") {
   const board = GameBoard();
 
   const players = [
@@ -44,11 +44,6 @@ function GameController(playerOne = "Player One",playerTwo = "player Two") {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   }
 
-  const printNewRound = () =>
-  {
-    console.log(`${activePlayer.name} please click where you want to place your ${activeToken}`);
-  }
-
   const updateBoard = (row,column) =>
   {
     const boardArray = board.getBoard();
@@ -61,12 +56,11 @@ function GameController(playerOne = "Player One",playerTwo = "player Two") {
   {
     const boardArray = board.getBoard();
     let playerOneWinner;
+    let playerTwoWinner;
     let rowWin;
     let columnWin;
     let leftDiagWin;
     let rightDiagWin;
-
-    console.log(boardArray);
 
     // check rows for win
     for (let i = 0; i < boardArray.length; i++)
@@ -74,9 +68,14 @@ function GameController(playerOne = "Player One",playerTwo = "player Two") {
       if(boardArray[i][0] == "X" && boardArray[i][1] == "X" && boardArray[i][2] == "X")
       {
         playerOneWinner = true;
-        rowWin = i;
         console.log("Player One Wins!");
       }
+      else if(boardArray[i][0] == "O" && boardArray[i][1] == "O" && boardArray[i][2] == "O")
+      {
+        playerTwoWinner = true;
+        console.log("Player Two Wins!");
+      }
+      rowWin = i;
     }
 
     // check columns for winner
@@ -86,9 +85,14 @@ function GameController(playerOne = "Player One",playerTwo = "player Two") {
       if(boardArray[0][i] == "X" && boardArray[1][i] == "X" && boardArray[2][i] == "X")
       {
         playerOneWinner = true;
-        columnWin = i;
         console.log("Player One Wins!");
       }
+      else if(boardArray[0][i] == "O" && boardArray[1][i] == "O" && boardArray[2][i] == "O")
+      {
+        playerTwoWinner = true;
+        console.log("Player Two Wins!");
+      }
+      columnWin = i;
     }
 
     // check left diagonal for win \
@@ -98,13 +102,25 @@ function GameController(playerOne = "Player One",playerTwo = "player Two") {
       playerOneWinner = true;
       leftDiagWin = true;
       console.log("Player One Wins!");
-    } 
+    }
+    else if(boardArray[0][0] == "O" && boardArray[1][1] == "O" && boardArray[2][2] == "O")
+    {
+      playerTwoWinner = true;
+      leftDiagWin = true;
+      console.log("Player Two Wins!");
+    }
     // check right diagonal wins
     else if(boardArray[0][2] == "X" && boardArray[1][1] == "X" && boardArray[2][0] == "X")
     {
       playerOneWinner = true;
       rightDiagWin = true;
       console.log("Player One Wins!");
+    }
+    else if(boardArray[0][2] == "O" && boardArray[1][1] == "O" && boardArray[2][0] == "O")
+    {
+      playerTwoWinner = true;
+      rightDiagWin = true;
+      console.log("Player Two Wins!");
     }
   }
 
@@ -113,8 +129,6 @@ function GameController(playerOne = "Player One",playerTwo = "player Two") {
     updateBoard(row,column);
     checkWinCondition();
     changeTurns();
-    printNewRound();
-    
   };
 
   return {playRound, getActivePlayer,getActiveToken, getBoard: board.getBoard};
