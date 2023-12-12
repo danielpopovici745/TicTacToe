@@ -125,7 +125,8 @@ function GameController(playerOne = "X",playerTwo = "O") {
     
     if (playerOneWinner || playerTwoWinner)
     {
-      endGame(playerOneWinner,playerTwoWinner);
+      endGame();
+      return true;
     }
   }
 
@@ -134,12 +135,18 @@ function GameController(playerOne = "X",playerTwo = "O") {
     updateBoard(row,column);
   };
 
-  const endGame = (playerOneWinner,playerTwoWinner) =>
+  const endGame = () =>
   {
-    prompt(`${getActivePlayer.name} WON!`); 
+    const buttons = document.querySelectorAll('.cell');
+    const playerTurnDiv = document.querySelector('.turn');
+    playerTurnDiv.textContent = `${getActivePlayer().name} WON!`
+    for (let i = 0; i< buttons.length;i++)
+      {
+        buttons[i].disabled = true;
+      } 
   }
 
-  return {playRound, getActivePlayer,getActiveToken, getBoard: board.getBoard, checkWinCondition, changeTurns};
+  return {playRound, getActivePlayer,getActiveToken, checkWinCondition, changeTurns, getBoard: board.getBoard};
 }
 
 function ScreenController() {
@@ -164,7 +171,7 @@ function ScreenController() {
       cellButton.dataset.column = columnindex;
       cellButton.textContent = board[rowindex][columnindex];
       if (cellButton.textContent != "") {
-        cellButton.removeEventListener("click", clickHandlerBoard);
+        cellButton.disabled = true;
       }
       else{
         cellButton.addEventListener("click", clickHandlerBoard);
@@ -182,8 +189,10 @@ function ScreenController() {
     
     game.playRound(selectedCellRow,selectedCellColumn);
     updateScreen();
-    game.checkWinCondition();
-    game.changeTurns();
+    if(!game.checkWinCondition()){
+      game.changeTurns();
+      updateScreen();
+    }
   }
 
   updateScreen();
