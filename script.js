@@ -15,7 +15,7 @@ function GameBoard() {
   };
 
   const getBoard = () => board;
-  return { getBoard};
+  return {getBoard};
 };
 
 function GameController(playerOne = "X",playerTwo = "O") {
@@ -32,6 +32,7 @@ function GameController(playerOne = "X",playerTwo = "O") {
     }
   ]
 
+  let numOfTurns = 1;
   let activePlayer = players[0];
   const activeToken = players[0].token;
 
@@ -109,6 +110,7 @@ function GameController(playerOne = "X",playerTwo = "O") {
       leftDiagWin = true;
       console.log("Player Two Wins!");
     }
+
     // check right diagonal wins
     else if(boardArray[0][2] == "X" && boardArray[1][1] == "X" && boardArray[2][0] == "X")
     {
@@ -128,6 +130,15 @@ function GameController(playerOne = "X",playerTwo = "O") {
       endGame();
       return true;
     }
+    else if(numOfTurns == 9)
+    {
+      endGame(numOfTurns);
+      return true;
+    }
+    else
+    {
+      numOfTurns+= 1;
+    }
   }
 
   const playRound = (row,column) =>
@@ -135,12 +146,20 @@ function GameController(playerOne = "X",playerTwo = "O") {
     updateBoard(row,column);
   };
 
-  const endGame = () =>
+  const endGame = (numOfTurns) =>
   {
     const buttons = document.querySelectorAll('.cell');
     const playerTurnDiv = document.querySelector('.turn');
     const containerDiv = document.querySelector('.container');
-    playerTurnDiv.textContent = `${getActivePlayer().name} WON!`
+    if(numOfTurns != 9)
+      {
+        playerTurnDiv.textContent = `${getActivePlayer().name} WON!`
+      }
+      else
+      {
+        playerTurnDiv.textContent = `DRAW`
+      }
+    
     for (let i = 0; i< buttons.length;i++)
       {
         buttons[i].disabled = true;
